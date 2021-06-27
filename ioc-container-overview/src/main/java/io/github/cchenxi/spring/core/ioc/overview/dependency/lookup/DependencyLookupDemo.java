@@ -1,5 +1,6 @@
 package io.github.cchenxi.spring.core.ioc.overview.dependency.lookup;
 
+import io.github.cchenxi.spring.core.ioc.overview.annotation.Super;
 import io.github.cchenxi.spring.core.ioc.overview.domain.User;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
@@ -11,6 +12,8 @@ import java.util.Map;
 /**
  * 依赖查找示例
  * 1. 通过名称查找
+ * 2. 通过类型查找
+ * 3. 通过注解查找
  *
  * Date: 2021-06-27
  *
@@ -24,6 +27,7 @@ public class DependencyLookupDemo {
         lookupInLazy(beanFactory);
         lookupByType(beanFactory);
         lookupCollectionByType(beanFactory);
+        lookupByAnnotationType(beanFactory);
     }
 
     private static void lookupInRealTime(BeanFactory beanFactory) {
@@ -42,12 +46,19 @@ public class DependencyLookupDemo {
         System.out.println("按类型查找 User 对象：" + user);
     }
 
-
     private static void lookupCollectionByType(BeanFactory beanFactory) {
         if (beanFactory instanceof ListableBeanFactory) {
             ListableBeanFactory listableBeanFactory = (ListableBeanFactory) beanFactory;
             Map<String, User> userMap = listableBeanFactory.getBeansOfType(User.class);
             System.out.println("按类型查找集合 User 对象：" + userMap);
+        }
+    }
+
+    private static void lookupByAnnotationType(BeanFactory beanFactory) {
+        if (beanFactory instanceof ListableBeanFactory) {
+            ListableBeanFactory listableBeanFactory = (ListableBeanFactory) beanFactory;
+            Map<String, User> userMap = (Map) listableBeanFactory.getBeansWithAnnotation(Super.class);
+            System.out.println("查找标注@Super注解的 User 集合对象：" + userMap);
         }
     }
 }
