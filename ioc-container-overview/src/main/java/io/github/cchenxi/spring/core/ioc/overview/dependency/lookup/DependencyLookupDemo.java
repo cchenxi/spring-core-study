@@ -22,6 +22,7 @@ public class DependencyLookupDemo {
 
         lookupInRealTime(beanFactory);
         lookupInLazy(beanFactory);
+        lookupByType(beanFactory);
         lookupCollectionByType(beanFactory);
     }
 
@@ -35,6 +36,12 @@ public class DependencyLookupDemo {
         User user = objectFactory.getObject();
         System.out.println("延时查找：" + user);
     }
+
+    private static void lookupByType(BeanFactory beanFactory) {
+        User user = beanFactory.getBean(User.class);
+        System.out.println("按类型查找 User 对象：" + user);
+    }
+
 
     private static void lookupCollectionByType(BeanFactory beanFactory) {
         if (beanFactory instanceof ListableBeanFactory) {
